@@ -1,0 +1,12 @@
+% Documento: Resumo (Português) - Está estruturado com \textbf{} para cada seção
+
+\begin{center}
+\imprimirtitulo
+\end{center}
+
+\begin{resumo}
+\textbf{Introdução:} As metástases cerebrais múltiplas acometem cerca de 20\% dos pacientes com algum tipo de tumor e seu tratamento pode ser realizado, entre outras formas, através da radiocirurgia estereotáxica. O delineamento realizado por um \textit{software} das metástases cerebrais para o planejamento do tratamento pode ter grande valor na prática radioterapêutica, visto que essa tarefa costuma demandar bastante tempo e ser de difícil identificação quando as metástases se apresentam em formatos pequenos. \textbf{Objetivos:} É proposta a aplicação de redes neurais artificiais em imagens de ressonância magnética (RM) para o delineamento automático de regiões tumorais com metástases e órgãos de risco, para o preparo de um planejamento radioterápico mais acurado e com menor risco de sobredosagem ao paciente. \textbf{Métodos:} Uma avaliação inicial permite encontrar as melhores sequências de pulso para as imagens de RM e, após isso, é possível adicionar os valores de escala de cinza de cada uma das imagens junto com a máscara de segmentação em uma rede neural convolucional para treinar a segmentação de metástases com diferentes combinações de hiperparâmetros. As métricas de performance incluirão o coeficiente Dice, sensibilidade, intersecção sobre a união e AuROCC. Assim, serão comparados os hiperparâmetros para determinar a melhor combinação. Depois disso, a arquitetura de rede será trocada e os mesmos procedimentos serão realizados, a fim de determinar o melhor conjunto de hiperparâmetros e arquiteturas para a tarefa de segmentação e comparar com os resultados encontrados em literatura para estudos similares. \textbf{Resultados esperados:} É esperado encontrar resultados melhores do que os encontrados em literatura. Além disso, serão analisados os hiperparâmetros e arquiteturas a fim de encontrar um modelo otimizado. Adicionalmente, será feita a clusterização dos conjuntos de dados para avaliar se há correlações entre os locais de aquisição e tempos de aquisição, para evitar \textit{overfitting}. Técnicas de \textit{data augmentation} e pré-processamento também serão aplicadas e o modelo será testado em outros \textit{datasets} para avaliar a robustez do modelo treinado.
+
+\textbf{Palavras-chave}: Metástases cerebrais. \textit{Deep Learning}. Ressonância Magnética. Radiocirurgia.
+
+\end{resumo}
