@@ -1,5 +1,5 @@
 # LaTeX dissertação UFCSPA
-Template LaTeX para apresentação de dissertação da UFCSPA
+Template LaTeX para apresentação de dissertação da UFCSPA, foi utilizado em meu Projeto de TCC em Física Médica, e na Qualificação e Dissertação de Mestrado em Tecnologias da Informação e Gestão em Saúde.
 
 Tive como base o template criado por Professor Valdex Santos <valdexsantos@ifba.edu.br> com colaboração do Francisco Bruno Souza Oliveira, que possui mais templates em gg.gg/profwaldexsantos
 
