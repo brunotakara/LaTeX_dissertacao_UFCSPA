@@ -1,0 +1,15 @@
+% Documento: Resumo (Inglês) - Está estruturado com \textbf{} para cada seção
+
+\begin{center}
+\imprimirtitleenglish
+\end{center}
+
+\begin{resumo}[Abstract]
+\textbf{Introduction:} Multiple Brain Metastases  occur in 20\% of patients with any type of malignant cancer, and the treatment for this comorbidity is commonly done through stereotactic radiosurgery. The automatic delineation of tumors could have a significant impact in a treatment planning system, as this task demands a long time and it might be challenging when metastases are small in size.
+\textbf{Objective:} We propose an application of deep learning in magnetic resonance imaging (MRI) of brain metastases and organs at risk to delineate these regions, so it further enhance treatment quality and avoid patient overexposure of ionising radiation. 
+\textbf{Methods:} An initial evaluation allows us to determine the best MRI sequences to identify regions of interest and, after that, it is possible to add the grayscale values of each pixel of the image together with their segmentation masks in a convolutional neural network to train metastases segmentation with different sets of hyperparameters. Our performance metrics will include the Dice score coefficient, recall, intersection over union, and AuROCC. Then we will compare the hyperparameters to determine the best set. After that, we will exchange the network's architecture and do the same procedures, until we get the best set of hyperparameters and architectures and compare it with similar studies. 
+\textbf{Expected Results:} We expect to find results for the given metrics which are better than the results found in literature. Also, we will analyze different sets of hyperparameters and architectures to argue which are the better options. Additionally, we will cluster our input data to analyze overfitting due to site and temporal aquisition, we will apply data augmentation, pre-process of images and test our models in data from other databases and improve the segmentation accuracy to turn our model more robust.
+
+	\textbf{Keywords}: Brain Metastases. Deep Learning. Magnetic Resonance. Radiosurgery.
+
+\end{resumo}
