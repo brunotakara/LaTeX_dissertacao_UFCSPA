@@ -1,0 +1,312 @@
+    \chapter{Referencial Teórico}\label{chap:teorico}
+
+\section{Metástases Cerebrais}
+
+As metástases cerebrais são o tipo de tumor intracraniano mais comum \cite{Achrol:2019,Amsbaugh:2023,Cho:2020,Lin:2015}, com ocorrência na faixa de 10\% a 26\% de todos os óbitos por câncer \cite{Amsbaugh:2023}. As células metastásticas mais comuns são provenientes de câncer de pulmão, mama e melanoma, mas também podem ser transportadas de tumores na próstata, cabeça e pescoço \cite{Amsbaugh:2023}.
+
+Esse transporte de uma célula metastática ocorre nos sistemas sanguíneo ou linfático, através da quebra da barreira hematoencefálica, levando à proliferação dessas células que podem causar invasão de regiões cerebrais, deslocamento de estruturas cerebrais, inflamações e edemas. Os locais de acúmulo no cérebro dependem do subtipo histológico da célula, e também se há alto fluxo sanguíneo na região \cite{Amsbaugh:2023}.
+
+Em casos de suspeita de ocorrência de metástase, o histórico do paciente é importante, e sintomas como dores de cabeça, visão embaçada e náusea podem ser indícios da presença metastática. Além disso, testes físicos devem ser realizados de modo a se avaliar a força, sensações, coordenação, reflexos, função cerebral, propriocepção, função dos nervos cranianos, fala, pensamento, visão e memória. Outras informações que podem ser relevantes são a idade, status de performance e da carga do câncer sistêmico \cite{Amsbaugh:2023}. Outros tipos de exames que podem ser realizados incluem a contagem de hemácias, o painel metabólico e análise da função do fígado \cite{Amsbaugh:2023}, cujas informações podem ser utilizadas como radiômica para complementar a análise feita pelas imagens \cite{Bibault:2021}.
+
+
+\section{Imagens do Planejamento Radioterápico}
+
+O padrão ouro para a identificação de metástases cerebrais é a RM com aplicação de contraste de gadolínio, que permite determinar o número de metástases e as regiões anatômicas em que se encontram, além de determinar o grau do edema relacionado ao tumor \cite{Amsbaugh:2023}. No entanto, para a RT, é viável utilizar uma imagem de TC devido à maior precisão espacial do tumor, uma vez que a imagem da RM está sujeita à artefatos e distorções de reconstrução \cite{Hu:2019} e, como o planejamento radioterápico se faz através do uso de altas doses que podem gerar toxicidades, é necessário que o delineamento seja o mais preciso possível, e o uso da combinação entre TC e RM têm se mostrado bastante eficaz \cite{Demiral:2019}. 
+
+As técnicas da radioterapia utilizadas para o tratamento de metástases cerebrais podem variar de acordo com o número, volume e localização das metástases, o status de performance de Karnofksy, a idade, presença de doença extracraniana e doença leptomeníngea, localização do tumor primário, local da resseção e a preferência do paciente \cite{Arora:2023}. Uma das diferentes técnicas de radioterapia utilizas para o tratamento de metástases cerebrais é a radioterapia cerebral total (WBRT, do inglês \textit{Whole Brain Radiation Therapy}), que é uma modalidade utilizada no tratamento de metástases cerebrais que irradia todo o cérebro com doses totais de 20 a 30 Gy, distribuídas sessões que podem ir até 10 \cite{Desai:2020,Arora:2023}. Outra forma é através da radioterapia com intensidade modulada (IMRT, do inglês, \textit{Intensity Modulated Radiation Therapy}), que é uma modalidade de radioterapia que envolve o uso de feixes de raios-X de aceleradores lineares em diferentes intensidades e formatos, de modo a entregar a dose na região desejada que geralmente fica localizada na intersecção das trajetórias dos feixes. Já a Arcoterapia Volumétrica Modulada (VMAT, do inglês \textit{Volumetric Modulated Arc Therapy}) ou \textit{RapidArc}, é um tipo de  tratamento que entrega a dose em feixes volumétricos em arco, através da rotação do acelerador linear ao redor da região a ser tratada sendo mais rápida e apresenta \textit{falloff} de dose parecidos com a radiocirurgia \cite{Ballangrud:2018}. Por fim, a radiocirurgia estereotáxica (SRS, do inglês \textit{Stereotactic Radiosurgery)} é uma técnica de radioterapia que envolve a aplicação única e bem localizada de uma alta dose de radiação ionizante na região tumoral a ser tratada, duas das técnicas mais comuns são a \textit{Gamma Knife} (GK) e a \textit{Cyber Knife} (CK), sendo a primeira baseada em radiações gama oriundas de fontes de Cobalto-60 e a segunda em raios-X de um acelerador linear acoplado a um braço mecânico.
+
+Para o caso da radiocirurgia, a precisão de localização da região a ser tratada é bastante importe, e o uso de aparelhos de tomografia computadorizada de feixe cônico (CBCT, do inglês \textit{Cone Beam Computed Tomography}) ajudam a guiar o posicionamento do paciente antes da aplicação do feixe de tratamento. Também é possível a combinação do uso das modalidades de imagem em RM e tomografia por emissão de pósitrons (PET, do inglês \textit{Positron Emission Tomography}) para que se obtenha uma melhor resolução espacial e acurácia na determinação das regiões para o tratamento, pois a imagem da RM é utilizada para se obter informações anatômicas enquanto que a imagem do PET é utilizada para se obter informações metabólicas, permitindo a diferenciação de uma recorrência tumoral de uma necrose \cite{Mori:2006} ou de alguma alteração após um primeiro tratamento \cite{Castellano:2021}. Além disso, a partir da imagem de RM não é possível saber se o acúmulo de contraste foi dado pelo aumento da permeabilidade da barreira hematoencefálica ou se há um tumor na região. Por esse motivo, técnicas mais recentes em RM podem ser mais eficazes na detecção tumoral, como a espectroscopia por RM, RM com difusão e RM com perfusão cerebral, bem como a utilização em conjunto com as imagens de PET para possibilitar a diminuição da região a ser delineada no planejamento radioterápico \cite{Castellano:2021}.
+
+Tanto as imagens obtidas em RM quanto as imagens obtidas em TC são salvas em formato \textit{Digital Imaging and Communications in Medicine} (DICOM), que é o formato padrão para o intercâmbio de dados biomédicos \cite{Bidgood:1997}, e conta com o armazenamento de informações não apenas referentes à imagem, mas também dados do paciente que podem ser utilizados no treino da rede neural. Além disso, existem diversas bibliotecas em linguagem Python específicas para realizar a leitura e manuseio de dados no formato DICOM, como a Pydicom \cite{Mason:2011} ou a recente Imagedata \cite{Andersen:2022}. Na próxima seção, encontra-se um panorama geral sobre as imagens em RM para a identificação de metástases cerebrais.
+
+
+\subsection{Imagens em Ressonância Magnética}
+
+Logo após realizada uma cirurgia de resseção de tumores cerebrais, a realização de um exame em RM é fortemente recomendada \cite{Garcia-Ruiz:2021} para avaliar tanto a extensão da ressecção quanto se há presença de alguma região tumoral restante.
+
+As imagens obtidas em Ressonância Magnética podem ser adquiridas em diferentes ponderações, T1, T2 e T2$^*$ \cite{Mazzola:2015} e diferentes Sequências de Pulso (SP), que podem variar de acordo com a fabricante do aparelho de RM. Cada tipo de modalidade possui parâmetros de aquisição distintos e trazem informações estruturais complementares sobre a região imageada, como é o caso da sequência em ponderação T2 denominada FLAIR, do inglês \textit{Fluid Attenuated Inversion Recovery}, que atenua o sinal do líquido cefalorraquidiano, aumenta o contraste entre a substância branca e cinzenta \cite{Bangerter:2006} e permite determinar regiões com lesões com mais precisão, apesar de também ser mais suscetível à artefatos de imagem \cite{Okuda:1999}.
+
+A ponderação T1 pode ser realizada em SP Spin Eco ou Gradiente Eco (GRE), sendo que essa segunda permite a aplicação de contraste formado por elementos paramagnéticos, como o Gadolínio, e possibilita a verificação de diferenças entre as imagens obtidas antes e após a aplicação do contraste, que normalmente se acumulam em regiões com edema, rompimento da barreira hematoencefálica ou necrose \cite{Kinoshita:2005, Mehrabian:2019}. Entre as sequências de pulso em ponderação T1, destacam-se a Cube, com e sem contraste,  e a BRAVO, do inglês \textit{Brain Volume}, para as imagens utilizadas nessa pesquisa. Por outro lado, o hipersinal na SP em T2 FLAIR permite identificar as regiões com edema vasogênico próximas aos tumores \cite{Mehrabian:2019}, que está correlacionado tanto com o tamanho dos tumores quanto com o local do tumor primário. Esse edema ocorre preferencialmente na região da substância branca, por ter uma distribuição radial de fibras nervosas, e como depende do tamanho da metástase, o hipersinal não deve ser usado como regra para identificação, principalmente para o caso de metástases pequenas \cite{Schneider:2017}. Um exemplo das diferenças entre as sequências pode ser visto na Figura \ref{fig:ctt1t2}, onde também é possível fazer a comparação com imagens em TC. Nota-se a importância do contraste para a identificação de hipersinal em anel ao redor das massas tumorais, e o hipersinal na sequência FLAIR indicativo de edema vasogênico.
+
+\begin{figure}[!htb]
+\centering
+    \includegraphics[width=1.\textwidth]{./04-figuras/ctt1t2.png}
+	\caption{Diferentes modos de aquisição de imagem de metástases cerebrais de paciente de 44 anos com câncer de pulmão de pequenas células e melanoma. TC - tomografia computadorizada. T1, FLAIR e T2* - sequências de pulso para imagens de ressonância magnética.}\vspace{-0.2cm}
+    \fonte{Adaptado de \cite{Fink:2013}}
+    \label{fig:ctt1t2}
+\end{figure}
+
+
+As imagens de RM com contraste são recomendadas para identificação de metástases cerebrais, e provaram-se superior às imagens obtidas em TC com contraste ou RM sem contraste. No entanto, é preciso cuidado ao se administrar doses de contraste maiores do que as recomendadas, pois apesar de melhorar o diagnóstico de pequenas metástases, o número de falsos positivos também aumenta, além do risco de desenvolvimento de fibrose nefrogênica sistêmica \cite{Zakaria:2014}.
+
+Entre as sequências de pulso mais utilizadas, destacam-se a \textit{Spoiled Gradient Echo} (SPGR) e a FLAIR para diferenciar anormalidades menores do que 3 milímetros \cite{Zakaria:2014}. Já a ressonância de difusão (DWI, do inglês \textit{Diffusion-Weighted Imaging} com o mapa de coeficiente de difusão aparente (ADC, do inglês \textit{Apparent Diffusion Coefficient}), permite diferenciar tumores de abscessos, esses que restringem a difusão de água. Um outro fator que deve ser levado em consideração é que depois que o tipo de tratamento é determinado pela equipe médica, novas imagens podem ser adquiridas para uma melhor resolução espacial.
+
+A Figura \ref{fig:breastmet} apresenta hipersinal em T1 com contraste em forma de anel em torno do tumor, o que pode indicar metástase, glioma de alto grau ou abscesso. O hipossinal (mais escuro) em DWI pode ser um indício de edema vasogênico, que em teoria é mais difusivo ao redor de metástases do que de gliomas de alto grau, que possuem mais células em torno do tumor \cite{Zakaria:2014}. Quando a restrição da difusão se apresenta em hipersinal em DWI e hipossinal no mapa ADC, pode ser um indício de coexistência de metástase e abscesso ou necrose com edema intracelular \cite{Yousef:2014}. 
+
+\begin{figure}[!htb]
+\centering
+    \includegraphics[width=0.6\textwidth]{./04-figuras/breastmet.png}
+	\caption{Imagens de RM ponderadas em (A) T1 com contraste de gadolínio, (B) DWI sem contraste e (C) mapa ADC sem contraste em caso de metástase cerebral única de tumor primário de mama em paciente mulher de 44 anos.}\vspace{-0.2cm}
+    \fonte{\cite{Yousef:2014}}
+    \label{fig:breastmet}
+\end{figure}
+
+A sinal encontrado para metástases não possui um padrão bem definido \cite{Zakaria:2014,Yousef:2014} e varia de acordo com o local do tumor primário. Um exemplo é a metástase de melanoma, cuja melanina possui propriedades paramagnéticas e aparece em hipersinal em T1 sem contraste e hipossinal em T2 FLAIR. De modo geral, tem-se que o sinal é isointenso ou hipointenso em T1, e hiperintenso em T2, com alterações em casos de hemorragia e para casos de metástases provindas de melanomas. Ademais, o contraste é tipicamente hiperintenso, podendo ter um formato uniformemente distribuído na região tumoral, também podendo ser pontual ou ao redor do tumor, em forma de anel \cite{Fink:2013}.
+
+A diferenciação de metástases cerebrais de outras patologias é uma tarefa complexa, já que os achados radiológicos entre elas são parecidos. Na Figura \ref{fig:comparacao}, estão alguns exemplos de 5 outras patologias que também demonstraram hipersinal em forma de anel ao redor da lesão, em uma SP ponderada em T1 após aplicação de contraste de Gadolínio. Por esse motivo, faz-se necessária uma ferramenta computacional para auxílio do diagnóstico diferencial de metástases.
+
+\begin{figure}[!htb]
+\centering
+    \includegraphics[width=1.\textwidth]{./04-figuras/comparacao.png}
+	\caption{Imagens de RM ponderadas em T1 com contraste em hipersinal anelar para casos de (A) toxoplasmose, (B) neurocisticercose, (C) glioblastoma, (D) esclerose múltipla tumefativa, (E) linfoma e (F) metástase de tumor pulmonar.}\vspace{-0.2cm}
+    \fonte{Adaptado de \cite{Pope:2018}}
+    \label{fig:comparacao}
+\end{figure}
+
+\section{Deep Learning}
+
+\textit{Deep Learning} (DL) é um ramo de \textit{Machine Learning} que se utiliza de redes neurais com camadas profundas para a determinação de regras aplicadas a um conjunto de dados através do fornecimento dos dados de entrada, ou \textit{inputs}, e as respostas que a rede deve alcançar. Sendo assim, a relação entre esses três conceitos pode ser visto na Figura \ref{fig:deeplearning}.
+
+\begin{figure}[!htb]
+\centering
+    \includegraphics[width=0.6\textwidth]{./04-figuras/deeplearning.png}
+	\caption{Relação entre IA, ML e DL.}\vspace{-0.2cm}
+    \fonte{\cite{Chollet:2017}}
+    \label{fig:deeplearning}
+\end{figure}
+
+Em um modelo de \textit{Deep Learning}, alguns objetos são fundamentais para a sua construção, como as camadas, os dados de entrada, a função perda, também chamada de função de custo , \textit{loss function} ou simplesmente \textit{loss}, e o otimizador. A relação entre esses objetos pode ser visto na Figura \ref{fig:nn_relationship}, e uma breve explicação desses objetos junto com quais metodologias foram selecionadas para aplicação serão apresentados na Seção \ref{chap:metodos} - Materiais e Métodos.
+
+\begin{figure}[!htb]
+\centering
+    \includegraphics[width=0.6\textwidth]{./04-figuras/nn_relationship.png}
+	\caption{Relação entre os objetos que compõem um modelo de DL.}\vspace{-0.2cm}
+    \fonte{\cite{Chollet:2017}}
+    \label{fig:nn_relationship}
+\end{figure}
+
+De acordo com \cite{Voulodimos:2018}, esse tipo de rede neural pode ser utilizada para Visão Computacional e envolve o uso de três tipos principais de redes: as convolucionais, as redes \textit{Deep Belief} e as máquinas de Boltzmann profundas. Nesse estudo, serão aplicadas diferentes redes neurais convolucionais para a tarefa de segmentação de metástases cerebrais, e um detalhamento maior sobre essas redes está descrito na subseção a seguir.
+
+
+\subsection{Redes Neurais Convolucionais}
+
+As Redes Neurais Convolucionais (CNNs), do inglês \textit{Convolutional Neural Networks}, foram inspiradas pela estrutura do sistema visual biológico, que processa o \textit{input} em um padrão de grade de modo a adquirir características espaciais sobre as bordas, texturas. contraste da imagem, entre outras características \cite{Yamashita:2018}.
+
+Para fins de elucidação, e tendo como base os artigos de \cite{Voulodimos:2018,Yamashita:2018} e o livro de \cite{Chollet:2017}, alguns termos específicos utilizados no contexto das redes neurais convolucionais estão descritos a seguir: 
+
+\begin{itemize}
+    \item \textbf{\textit{Input}}: O dado que entra na rede neural, nesse estudo é a sequência de valores da intensidade de \textit{pixels} que compõe uma imagem, chamado de \textit{pixel array}.
+    \item \textbf{Parâmetro}: A variável que está sendo treinada na rede neural, que são os pesos e os \textit{biases} de cada neurônio artificial. Em CNNs, os parâmetros treinados são os \textit{kernels}.
+    \item \textbf{Hiperparâmetros}: As variáveis que são definidas antes do treino ser realizado e que não se alteram durante o treino, a variação desses valores acarreta resultados distintos para treinos distintos.
+    \item \textbf{\textit{Kernel}}: É um conjunto de parâmetros variáveis da operação de convolução.
+    \item \textbf{Pesos}: Um dos parâmetros que se alteram no treino, dentro do Kernel há diversos pesos e para cada neurônio há um número distinto de pesos associados a cada elemento do \textit{input}.
+    \item{\textit{\textbf{Feature Maps}}}: Ou mapa de características, é o conjunto de valores adquiridos em uma imagem após a aplicação da convolução. São responsáveis por extrair características locais da imagem, como bordas, linhas, contrastes, entre outras características.
+    \item \textbf{\textit{Weight Sharing}}: Uma das características das CNNs é que os pesos dos kernels são compartilhados para todas as posições da imagem, permitindo extrair características de forma mais generalizada.
+    \item \textbf{Época}: É um ciclo do treino, quando todo o conjunto de dados passa ao menos uma vez pelas camadas da rede para a atualização dos valores dos pesos. 
+    \item \textbf{\textit{Batch size}}: Uma época é dividida em treinos nos subconjuntos de imagens, e o \textit{batch size} (BS) determina quantos \textit{inputs} serão treinados ao mesmo tempo. O valor do BS pode ir de 1 até o número de amostras totais e, quanto menor seu tamanho, mais passos a rede irá precisa concluir para finalizar uma época.
+    \item \textbf{\textit{Patch}}: É um recorte da imagem original, geralmente utilizado para diminuir o tamanho da imagem treinada, diminuindo a quantidade de poder computacional necessária para o treino, mantendo a resolução da imagem original.
+    \item \textbf{\textit{Learning rate}}: A \textit{learning rate} (LR) é um hiperparâmetro que representa a taxa de aprendizagem da rede, isto é, o valor da atualização da variação dos pesos presentes nos \textit{kernels}.
+    \item \textbf{\textit{Overfitting}}: Representa a condição em que o modelo treinado apresente resultados otimizados para a validação com o conjunto de dados utilizado no treino, porém não apresenta bons resultados quando aplicado em dados externos ao treino.
+    \item \textbf{\textit{Padding}}: É um hiperparâmetro que representa o preenchimento que as redes neurais utilizam para que não haja perda da dimensionalidade do \textit{input}, uma vez que a grade de convolução possui dimensões não unitárias, é preciso preencher as bordas da imagem original para que a nova imagem possua a mesma dimensão.
+    \item \textbf{\textit{Stride}}: É um hiperparâmetro que determina a distância, em \textit{pixels} ou \textit{voxels}, que o \textit{kernel} percorre em cada passo de uma operação de convolução, geralmente seu valor utilizado é unitário.
+    \item \textbf{\textit{Dropout}}: É uma técnica de regularização que desativa alguns dos neurônios da rede de modo a não criar dependências de uma característica com algum neurônio em específico, e permite a atualização mais regular de todos os pesos da rede.
+    \item \textbf{\textit{Pooling}}: São importantes para adicionar uma invariância translacional em relação à pequenas mudanças espaciais entre diferentes amostras, bem como algumas distorções. É uma camada que diminui a dimensionalidade espacial dos mapas de características, e resulta também na diminuição do número de parâmetros de treino.
+    \item \textbf{Função perda}: Também chamada de \textit{loss function}, é a função que será utilizada durante o treino para avaliar a eficiência do modelo, quanto menor a função perda, mais o modelo possui previsões que se aproximam do resultado desejado. Para o caso de segmentação, é utilizada a função perda do coeficiente Dice.
+    \item \textbf{Função de ativação da última camada}: Essa função é aplicada no \textit{output} da última camada de modo a padronizar o resultado obtido, geralmente é empregada a função \textit{Rectified Linear Units} (ReLU) para a tarefa de classificação, mas também pode ser a função sigmoide ou tangente hiperbólica.
+    \item \textbf{Otimizadores}: São algoritmos que permitem a minimização da função perda durante o treino, o otimizador mais utilizado é o Adam \cite{Kingma:2014}, que tem como base o gradiente de descida estocástica e calcula derivadas de primeira ordem da função perda, outros otimizadores como o Adagrad e o RMSProp também podem ser utilizados para teste de performance.
+    \item  \textbf{\textit{Data Augmentation}}: É um processo de aumento de dados utilizado para treinar o modelo com mais variações de uma imagens, aumentando o tamanho de amostras e permitindo que o modelo fique mais robusto em relação às variações. Geralmente são aplicadas transformações na imagem que envolvem rotação, inversão, ajuste de brilho, recortes, entre outras.
+\end{itemize}
+
+Uma CNN é constituída por três tipos de camadas principais: a camada convolucional, a camada de \textit{pooling} e a camada \textit{fully connected}, conforme ilustrado na Figura \ref{fig:bbcnn}.
+
+\begin{figure}[!htb]
+\centering
+    \includegraphics[width=0.85\textwidth]{./04-figuras/buildingblockscnn.png}
+	\caption{Representação esquemática dos blocos de uma rede neural convolucional}\vspace{-0.2cm}
+    \fonte{\cite{Sarvamangala:2022}}
+    \label{fig:bbcnn}
+\end{figure}
+
+As camadas de convolução e as camadas de \textit{pooling} recebem um conjunto de valores de intensidades de \textit{pixels}, e os transformam em outros valores através de transformações lineares com somas e multiplicações, seguida de uma transformação não-linear através da função de ativação. A camada de convolução irá extrair algumas características da imagem e formar o que se chama de mapa de características, enquanto que a camada de \textit{pooling} irá reduzir a dimensão espacial da imagem, em um processo que pode ocasionar perda de informação mas que também previne o chamado \textit{overfitting}, que é quando a rede treinada se ajusta perfeitamente aos dados de treino mas sem grandes aplicações para dados que estejam fora dele. Esses mapas de características com redução de dimensionalidade passam por diversas camadas de convolução e \textit{pooling}, cuja complexidade de características aumenta a cada camada, até chegar à última camada \textit{fully connected} que agrega todos os valores obtidos das camadas anteriores em um vetor unidimensional, e é responsável em trazer o resultado final da rede \cite{Voulodimos:2018,Yamashita:2018}.
+
+A variação de hiperparâmetros acarreta em melhorias na rede neural e consiste na substituição de valores como o tamanho do \textit{kernel}, o número de \textit{kernels}, o tamanho do \textit{padding}, o tamanho do \textit{stride}, a utilização \textit{Dropout}, bem como suas probabilidades, os otimizadores utilizados, a \textit{learning rate} (LR), o \textit{batch size} (BS), o número de épocas do treinamento, a utilização de \textit{callbacks} como \textit{model checkpoint, early stopping} e \textit{decay}, que, respectivamente, salva o melhor modelo, interrompe o treino caso não haja variações nos resultados e altera dinamicamente os valores de alguns hiperparâmetros para evitar que os pesos do modelo convirjam em mínimos locais, entre outros hiperparâmetros que podem ser definidos antes do treino.
+
+Além disso, a arquitetura da rede pode ser alterada e, entre as CNNs utilizadas para realizar a segmentação de estruturas anatômicas, algumas possuem resultados promissores e serão testadas para a detecção de metástases cerebrais, como por exemplo a U-Net \cite{Ronneberger:2015}, a SegNet\cite{Badrinarayanan:2017}, a U-SegNet \cite{Kumar:2018}, a DeepMedic \cite{Kamnitsas:2017} a GooLeNet \cite{Grovik:2020} e a HRNetV2 \cite{Sun:2019}. 
+
+\subsubsection{\textit{Transfer Learning}}
+
+Uma das estratégias de treino de redes neurais envolve o uso de valores de pesos e \textit{bias} obtidos com o treino em outro banco de dados, que são reutilizados para uma tarefa semelhante \textcolor{red}{(Achar uma referência para colocar aqui)}. Geralmente, esses modelos pré-treinados utilizaram bancos de dados maiores e tiveram um maior uso de recursos computacionais, como é o caso dos modelos treinados no ImageNet. Para a tarefa de segmentação de imagens médicas, no entanto, um estudo feito para investigar as representações aprendidas com o \textit{Transfer Learning}, concluiu que o ganho nas métricas de coeficiente Dice e distância de Hausdorff foram positivos \cite{Karimi:2021}. Nesse estudo, os autores concluiram que durante o treino, é vantajoso congelar os parâmetros treináveis da seção do \textit{encoder} e apenas treinar os parâmetros da seção do \textit{decoder} de um modelo com arquitetura \textit{auto-encoder}, já que durante o treino os filtros do \textit{encoder} variaram pouco e não apresentaram variação em relação aos filtros inicializados aleatoriamente. Para o \textit{fine-tuning}, que consiste no treino a partir de um modelo pré-treinado com as imagens de um novo banco de dados de interesse, os autores encontraram que os parâmetros do \textit{decoder} pré-treinados podem ser reutilizados no novo conjunto de dados apenas no caso de ambos os bancos de dados tiverem a tarefa em comum, caso contrário a transferência do aprendizado não será estatisticamente significativa \cite{Karimi:2021}.
+
+%A seguir, encontram-se listadas as principais CNNs estado da arte com uma breve descrição sobre cada uma delas.
+
+%\subsubsection{U-Net}
+%Em 2015, foi apresentado um modelo de rede neural por \cite{Ronneberger:2015}, que consiste em uma CNN com blocos residuais, e é bastante utilizada na segmentação de imagens médicas para diagnóstico \cite{Hu:2019,Rudie:2021}. Essa arquitetura de rede não necessita de grandes conjuntos de dados para realizar um treino com resultados aceitáveis, e utiliza a técnica de \textit{data augmentation} em poucos dados anotados e com camadas de \textit{upsampling} para compensar as camadas de \textit{pooling} realizadas na primeira etapa do processo de treinamento. Essa arquitetura foi a vencedora do desafio do \textit{International Symposium on Biomedical Imaging} (ISBI) em 2012 para a segmentação de estruturas neurais em microscopia eletrônica e, desde então, tem sido amplamente utilizada para a função de segmentação na área médica. A U-Net pode ser encontrada em arquiteturas tanto para a convolução 2D quanto para a convolução 3D, e uma hibridização de ambas as arquiteturas também pode ser utilizada, como foi feita por \cite{Jalalifar:2020} na tarefa de segmentação de metástases cerebrais.
+
+%\subsubsection{SegNet}
+
+%A arquitetura SegNet \cite{Badrinarayanan:2017} tem como base uma rede na forma \textit{encoder-decoder}, formada por redes \textit{Visual Geometry Group} (VGG) e VGG inversa, que diminui a dimensão do \textit{input} para extração de características e depois aumenta a resolução em um processo de \textit{upsampling}, essa arquitetura consiste em camadas convolucionais seguidas de camadas de \textit{Batch Normalisation} com ativação ReLU. Como os índices dos mapas de características são salvos nas camadas de \textit{MaxPooling} da parte \textit{decoder} da rede, há um menor uso de poder computacional quando comparado com outras arquiteturas de rede, podendo ser um atrativo do uso dessa arquitetura. A aplicação proposta por \cite{Badrinarayanan:2017} foi feita para imagens de ambientes externos e internos para a segmentação de objetos, e não há registros de utilização para a segmentação de imagens médicas. 
+
+%\subsubsection{U-SegNet}
+
+%\cite{Kumar:2018} aplicou uma arquitetura de rede híbrida constituída por uma U-Net e uma SegNet, a chamada U-SegNet, para realizar a segmentação cerebral de substância branca, substância cinzenta e líquido cefalorraquidiano. Essa arquitetura híbrida apresentou melhores resultados nas métricas do coeficiente Dice para os três tipos de estruturas cerebrais quando comparada às arquitetura U-Net e SegNet aplicadas separadamente. Apesar de apresentar grande potencial de aplicação na tarefa de segmentação, não foram encontradas aplicações para envolvendo metástases cerebrais na literatura.
+
+%\subsubsection{DeepMedic}
+
+%Criada em 2017, a arquitetura de rede DeepMedic \cite{Kamnitsas:2017} realiza convoluções 3D em dois caminhos de resoluções distintas da imagem do \textit{input}, uma com alta resolução outra com baixa resolução, com \textit{kernels} de tamanhos distintos para cada um dos caminhos e os agregando ao final, de modo a encontrar características globais e locais das lesões cerebrais. Essa rede é otimizada para identificação de lesões cerebrais do conjunto de dados do desafio do \textit{Brain Tumor Segmentation} (BraTS) e demonstrou eficiência nos estudos publicados por \cite{Hu:2019,Liu:2017,Charron:2018,Pennig:2021,Jünger:2021} para a segmentação de metástases cerebrais. No entanto, pode trazer resultados superestimados quando utilizado em testes desse mesmo \textit{dataset} \cite{Charron:2018}.
+
+%\subsubsection{GoogLeNet}
+
+%A GoogLeNet é uma rede neural de 2014 que possui uma característica de concatenar operações de convolução com \textit{kernels} de diferentes tamanhos antes de passar para uma próxima camada, também chamados de módulos \textit{Inception}, e foi utilizada no estudo por \cite{Grovik:2020}, alcançando resultados promissores na tarefa de segmentação de metástases cerebrais.
+
+%\subsubsection{HRNetV2}
+
+%HighResolution Net V2 é uma versão melhorada a HighResolution Net \cite{Sun:2019} que trabalha com imagens 2D de alta resolução, dividindo em sub-redes paralelas com \textit{inputs} resoluções menores e agregando as informações de todos as sub-redes em paralelo. Essa arquitetura mostrou resultados promissores na publicação realizada por \cite{Ottesen:2023} para a segmentação de metástases cerebrais.
+
+\section{Diretrizes para publicação}
+
+De modo a tornar a pesquisa envolvendo a IA na área da Física Médica mais replicável e que outros pesquisadores possam ter maiores informações sobre o rigor, a qualidade e a generabilidade dos métodos utilizados no trabalho \cite{Mongan:2020}, duas diretrizes serão consultadas para que o método de pesquisa esteja de acordo com as recomendações propostas: CLAMP \cite{ElNaqa:2021} e CLAIM \cite{Mongan:2020}. A combinação de ambos os \textit{checklists} será utilizada para a determinação de um desenho de pesquisa cuja metodologia cumpra com a obtenção das informações necessárias para a publicação na área.
+
+\subsection{CLAMP}
+A American Association of Physicists in Medicine possui uma lista de diretrizes que são consideradas essenciais para publicação de artigos na temática de Inteligência Artificial na Medicina. O \textit{Checklist for AI in Medical Physics} (CLAMP) apresentado por \cite{ElNaqa:2021} consiste em 26 itens que serão levados em consideração, com informações sobre as imagens adquiridas, o método do treino, a apresentação dos resultados, a metodologia empregada e materiais utilizados para garantir uma maior qualidade dos dados e maior relevância dos resultados obtidos. Esse checklist separa os itens por seção da publicação, que estão descritos na lista a seguir:
+
+\begin{enumerate}
+    \item Resumo
+    \begin{itemize}
+        \item Proposta, novidade e significância.
+        \item Tamanho do dataset e como ele foi particionado para o treino.
+        \item Resultados com análise estatística.
+    \end{itemize}
+    \item Introdução
+    \begin{itemize}
+        \item Proposta e justificativa.
+        \item Contribuição para a física médica.
+        \item Estágio da pesquisa.
+    \end{itemize}
+    \item Materiais
+    \begin{itemize}
+        \item Característica do conjunto de dados, incluindo tamanho e local de obtenção.
+        \item Descrição dos aparelhos utilizados na obtenção dos dados e informações sobre o pré-processamento de dados.
+        \item Modalidade de aquisição das imagens, protocolos e parâmetros em detalhes.
+        \item Dados da população utilizados, representatividade e prevalência da doença.
+        \item Tipo de fantomas utilizados e métodos para gerar dados sobre os fantomas, quando aplicável.
+        \item Composição de adequação dos dados para o uso em ML.
+        \item Descrição da \textit{Ground Truth} e como essas informações foram anotadas, bem como os níveis de subjetividade e incerteza.
+        \item Partição dos dados em treino, validação e teste. Assim como formas de mitigar os vieses e justificativa do tamanho da amostra.
+        \item Validação final utilizando um \textit{dataset} público, ou tornando público o \textit{dataset} utilizado.
+    \end{itemize}
+    \item Métodos
+    \begin{itemize}
+        \item Metologia replicável, com informações sobre arquiteturas utilizadas, hiperparâmetros, \textit{inputs} e suas dimensionalidades, técnicas de pré-processamento e tipo de \textit{output}.
+        \item Informações sobre o treino e otimização, como a função perda utilizada, técnicas de regularização, maneiras de reduzir \textit{overfitting}.
+        \item Disponibilidade pública do código utilizado no treino.
+        \item Métodos de avaliação de performance e pós-processamento do \textit{output}.
+        \item Métodos para estimar a incerteza, bem como seus intervalos de confiança de 95\%.
+        \item Análises de subgrupos para alguns subgrupos relevantes, como sexo, idade, tamanho da metástase, etc.
+        \item Significância dos resultados obtidos comparados com a hipótese nula ou com alguma métrica de referência.
+        \item Resultados demonstrativos do treino, validação e teste.
+    \end{itemize}
+    \item Discussão
+    \begin{itemize}
+        \item Conclusões suportadas pelos resultados.
+        \item Limitações do estudo.
+        \item Inovação, significância e contribuições para a física médica.
+    \end{itemize}
+\end{enumerate}
+
+
+\subsection{CLAIM}
+
+Além do CLAMP, um estudo publicado na revista \textit{Radiology} por \cite{Mongan:2020} indica outros itens que também devem estar presentes em estudos envolvendo o uso de IA em aplicações nas imagens médicas. O \textit{Checklist for Artificial Intelligence in Medical Imaging} (CLAIM) conta com 42 itens que também estão divididos por seção da publicação, descritos na lista a seguir:
+
+\begin{enumerate}
+    \item Título ou Resumo
+    \begin{itemize}
+        \item Identificação da categoria de IA utilizada, como por exemplo o \textit{Deep Learning}.
+    \end{itemize}
+    \item Resumo
+    \begin{itemize}
+        \item Resumo estruturado com desenho do estudo, métodos, resultados e conclusão.
+    \end{itemize}
+    \item Introdução
+    \begin{itemize}
+        \item Contexto científico e clínico da aplicação.
+        \item Objetivos do estudo e hipóteses.
+    \end{itemize}
+    \item Métodos
+    \begin{enumerate}
+        \item Desenho de pesquisa:
+        \begin{itemize}
+            \item Prospectivo ou retrospectivo.
+            \item Objetivo do estudo.
+        \end{itemize}
+        \item Dados:
+        \begin{itemize}
+            \item Fonte dos dados.
+            \item Critérios de eligbilidade dos participantes.
+            \item Passos de pré-processamento dos dados.
+            \item Escolha dos subconjuntos de dados.
+            \item Definição dos elementos de dados utilizados em comparação com elementos padrões.
+            \item Métodos de desidentificação.
+            \item Formas de contornar os dados faltantes.
+        \end{itemize}
+        \item \textit{Ground Truth}:
+        \begin{itemize}
+            \item Definição da \textit{Ground Truth} utilizada, com detalhes para permitir replicação.
+            \item Motivos para utilizar a \textit{Ground Truth} em questão.
+            \item Fonte das anotações da \textit{Ground Truth}.
+            \item Ferramentas utilizadas na anotação dos dados.
+            \item Medidas de variabilidade e discrepância entre os anotadores e métodos para mitigar essa variabilidade.
+        \end{itemize}
+        \item Partições dos dados:
+        \begin{itemize}
+            \item Tamanho da amostra pretendido e como foi determinado.
+            \item Como os dados foram particionados e suas proporções.
+            \item Nível em que os dados estão desagrupados, por exemplo por instituição, pacientes, etc.
+        \end{itemize}
+        \item Modelo:
+        \begin{itemize}
+            \item Descrição completa do modelo, \textit{inputs}, \textit{outputs}, camadas imtermediárias e conexões.
+            \item Bibliotecas, \textit{frameworks} e pacotes utilizados no \textit{software}.
+            \item Parâmetros de inicialização do modelo, como randomização ou \textit{transfer learning}.
+        \end{itemize}
+        \item Treino:
+        \begin{itemize}
+            \item Detalhes do treino, como \textit{data augmentation}, hiperparâmetros e número de modelos treinados.
+            \item Método de seleção do modelo final.
+            \item Ténicas de \textit{ensemble}, quando utilizadas.
+        \end{itemize}
+        \item Avaliação:
+        \begin{itemize}
+            \item Métricas de performance do modelo.
+            \item Medidas estatísticas e incertezas associadas.
+            \item Análise de robustez ou sensibilidade.
+            \item Métodos de explicabilidade ou interpretabilidade dos resultados e como é feita a validação.
+            \item Validação e teste em dados externos ao estudo.
+        \end{itemize}
+    \end{enumerate}
+    \item Resultados
+    \begin{enumerate}
+        \item Dados:
+        \begin{itemize}
+            \item Fluxo de participantes ou de casos, com fluxogramas representando os critérios de seleção.
+            \item Características clínicas e demográficas dos participantes em cada partição.
+        \end{itemize}
+        \item Performance do modelo:
+        \begin{itemize}
+            \item Métricas da melhor performance para cada partição estudada.
+            \item Estimativa da acurácia e precisão do modelo e seus intervalos de confiança.
+            \item Análise de falha para os falsos positivos (FP) e falsos negativos (FN).
+        \end{itemize}
+    \end{enumerate}
+    \item Discussão
+    \begin{itemize}
+        \item Limitações do estudo, incluindo vieses, incertezas estatísticas e generalização.
+        \item Implicações práticas e função na clínica.
+    \end{itemize}
+    \item Outras informações:
+    \begin{itemize}
+        \item Número e nome do registro da pesquisa.
+        \item Onde o protocolo de estudo pode ser encontrado.
+        \item Fontes de financiamento e suporte, bem como o papel das fontes na pesquisa.
+    \end{itemize}
+\end{enumerate}
