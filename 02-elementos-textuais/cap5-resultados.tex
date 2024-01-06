@@ -1,0 +1,140 @@
+% Documento: Conclusão
+\chapter{Resultados Preliminares}\label{chap:resultados}
+
+Os resultados obtidos até o presente momento envolvem os seguintes itens:
+
+\begin{itemize}
+    \item Identificação de Metástases Cerebrais
+    \item Segmentação de Metástases Cerebrais
+    \item Avaliação dos hiperparâmetros para melhores resultados
+\end{itemize}
+
+\section{Resultados obtidos}
+
+\subsection{Identificação de Metástases Cerebrais}
+
+Nesta primeira parte do estudo, foi feita uma comparação da detecção de metástases cerebrais por meio de redes neurais artificiais em três ponderações de sequências de pulso em imagens de ressonância magnética de crânio: BRAVO, 3D CUBE e FLAIR. Para a sequência 3D CUBE, foram realizadas duas aquisições, uma sem aplicação de contraste e outra com aplicação de contraste
+
+Sendo assim, foram realizados treinos de CNNs para identificação das melhores combinações de sequências de pulso e ponderações em RM através das métricas de acurácia, precisão, sensibilidade, especificidade, AuROCC e F1-Score. E as redes neurais utilizadas consistiam de uma rede neural convolucional simples, com arquitetura de três camadas de convolução com 8, 16 e 32 \textit{kernels} de dimensão 3x3, seguidas por uma camada de \textit{max pooling} com \textit{kernels} 2x2 e uma camada de .5, .3 e .2 de \textit{Dropout}, respectivamente. Depois dessas camadas, havia uma camada de \textit{Flatten} para uma camada Densa de 64 neurônios com ativação 'relu' e uma camada de 0.4 de \textit{Dropout}. Ao final, uma camada Densa de 1 neurônio com ativação sigmoide para classificação binária. Na Figura \ref{fig:rede} encontra-se o diagrama com a arquitetura da rede utilizada.
+
+\begin{figure}[!htb]
+\centering
+	\includegraphics[width=0.5\textwidth]{./04-figuras/rede.png}
+	\caption{Arquitetura de rede utilizada para identificação}\vspace{-0.2cm}
+    \fonte{Autoria própria.}
+    \label{fig:rede}
+\end{figure}
+
+Dessa maneira, foi possível realizar a variação dos hiperparâmetros a fim de se determinar a melhor ponderação para identificação das metástases. Em um primeiro momento, foi feita uma investiação com variação multiparamétrica para que algumas variações de hiperparâmetros fossem analisadas e ponderadas para a criação de um protocolo de treino. A partir dessa primeira investigação, a variação dos hiperparâmetros foram feitas realizando-se 6 passos para cada uma das sequências de pulso. Esses passos estão listados a seguir:
+
+\begin{enumerate}
+    \item Iniciar o treino com \textit{batch size} de 128, \textit{learning rate} de 5E-4, durante 100 épocas, com \textit{Dropouts} de, respectivamente, 0.5, 0.3, 0.2 e 0.4 e 64 neurônios na última camada;
+    \item Aumentar o \textit{batch size} de 128 para 256;
+    \item Diminuir a \textit{learning rate} de 5E-04 para  1E-04;
+    \item Diminuir todos os \textit{Dropouts} pela metade;
+    \item Aumentar o tempo de treino para 300 épocas e o número de neurônios na última camada para 128;
+    \item Aumentar o \textit{batch size} para 1024;
+\end{enumerate}
+
+As matrizes de confusão obtidas para o conjunto de teste para cada um dos treinos do protocolo estão descritas na Figura \ref{fig:mc_ponderacoes}:
+
+\begin{figure}[!htb]
+\centering
+	\includegraphics[width=1.0\textwidth]{./04-figuras/mc_ponderacoes.png}
+	\caption{Matrizes de confusão para diferentes sequências de pulso onde: \textit{tp - true positive, fp - false positive, tn - true negative, fn - false negative}}\vspace{-0.2cm}
+    \fonte{Autoria própria.}
+    \label{fig:mc_ponderacoes}
+\end{figure}
+
+A partir desses resultados, foi possível categorizar as melhores sequências de pulso quanto à capacidade de identificação de metástases cerebrais, na seguinte ordem, da melhor para a pior: FLAIR, BRAVO e 3D CUBE com contraste. 
+
+Os resultados para cada um dos modelos treinados M em relação à precisão P, acurácia A, sensibilidade S, especificidade E e F1-Score F1 estão dispostos na Figura \ref{tab:treinos_ponderacoes} a seguir:
+
+\begin{table}[!htb]
+\centering
+\caption{Resultados dos treinos para determinação das melhores sequências de pulso no diagnóstico de metástases cerebrais pela rede neural, com medições de M - modelo, P - precisão, A - acurácia, S - sensibilidade, E - especificidade e F1 - \textit{F1-Score}. Os melhores valores estão destacados em negrito.}
+\begin{tabular}{ccccccc}
+\hline
+\textbf{Modalidade}       & \textbf{M} & \textbf{P}              & \textbf{A}              & \textbf{S}              & \textbf{E}              & \textbf{F1}             \\ \hline
+BRAVO      & 1 & 0,601          & \textbf{0,526} & 0,670          & 0,297          & 0,398          \\
+BRAVO      & 2 & 0,568          & 0,487          & 0,675          & 0,189          & 0,283          \\
+BRAVO      & 3 & 0,636          & 0,446          & 0,226          & 0,795          & 0,707          \\
+BRAVO      & 4 & 0,637          & 0,431          & 0,165          & \textbf{0,851} & 0,729          \\
+BRAVO      & 5 & 0,577          & 0,507          & 0,731          & 0,153          & 0,241          \\
+BRAVO      & 6 & 0,574          & 0,501          & 0,721          & 0,153          & 0,241          \\
+3D CUBE    & 1 & 0,562          & 0,443          & 0,416          & 0,486          & 0,521          \\
+3D CUBE    & 2 & 0,593          & 0,471          & 0,437          & 0,526          & 0,558          \\
+3D CUBE    & 3 & 0,455          & 0,351          & 0,297          & 0,438          & 0,446          \\
+3D CUBE    & 4 & 0,607          & 0,462          & 0,345          & 0,647          & 0,626          \\
+3D CUBE    & 5 & 0,611          & 0,457          & 0,315          & 0,683          & 0,645          \\
+3D CUBE    & 6 & 0,626          & 0,507          & 0,485          & 0,542          & 0,581          \\
+3D CUBE CC & 1 & 0,620          & 0,502          & 0,485          & 0,530          & 0,572          \\
+3D CUBE CC & 2 & 0,553          & 0,431          & 0,371          & 0,526          & 0,539          \\
+3D CUBE CC & 3 & 0,507          & 0,392          & 0,266          & 0,590          & 0,546          \\
+3D CUBE CC & 4 & 0,658          & 0,462          & 0,254          & 0,791          & 0,718          \\
+3D CUBE CC & 5 & 0,630          & 0,462          & 0,294          & 0,727          & 0,675          \\
+3D CUBE CC & 6 & 0,593          & 0,510          & 0,637          & 0,309          & 0,407          \\
+FLAIR      & 1 & 0,524          & 0,411          & 0,416          & 0,402          & 0,455          \\
+FLAIR      & 2 & 0,542          & 0,429          & 0,439          & 0,414          & 0,469          \\
+FLAIR      & 3 & 0,570          & 0,509          & \textbf{0,802} & 0,044          & 0,082          \\
+FLAIR      & 4 & 0,562          & 0,473          & 0,637          & 0,213          & 0,309          \\
+FLAIR      & 5 & \textbf{0,709} & 0,519          & 0,365          & 0,763          & \textbf{0,735} \\
+FLAIR      & 6 & 0,567          & 0,498          & 0,764          & 0,076          & 0,135          \\ \hline
+\end{tabular}
+\fonte{Autoria própria.}
+\label{tab:treinos_ponderacoes}
+\end{table}
+
+Após o treino de 24 RNCs, foram obtidas todas as matrizes de confusão e mediu-se os valores da métrica F1-Score: 0,728 para BRAVO, 0,645 para 3D CUBE sem contraste, 0,718 para 3D CUBE e 0,735 para FLAIR. Quanto a análise isolada das métricas de precisão, acurácia, sensibilidade e especificidade, as melhores foram, respectivamente, 70,9\% para FLAIR, 52,6\% para BRAVO, 80,2\% para FLAIR e 85,1\% para BRAVO. 
+
+A partir desses resultados, foi possível identificar as sequências de pulso com maiores contribuições para a identificação de metástases cerebrais através do treino de redes neurais: FLAIR e BRAVO. Os resultados para a sequência FLAIR indicaram precisão de 70,9\%, acurácia de 51,9\%, sensibilidade de 36,5\% e especificidade de 76,3\%. Além disso, não foi possível identificar uma diferença significativa na capacidade de detecção de metástases através das sequências 3D CUBE com e sem contraste.
+
+Vale observar que os resultados encontrados nessa etapa da pesquisa reforçam os encontrados por \cite{Charron:2018}, uma vez que as sequências com maior valor para a métrica DSC para a segmentação em ponderações 2D foram para FLAIR, seguida da T1. Além disso, no estudo de \cite{Charron:2018} a utilização de uma sequência 3DT1 se mostrou superior às duas sequências 2D.
+
+\subsection{Segmentação de Metástases Cerebrais}
+
+A partir das imagens nas SP FLAIR, BRAVO e 3D CUBE CC, foi possível gerar uma imagem para o \textit{input} de uma rede neural de arquitetura U-Net 2D, com atribuições para os canais RGB dos valores de intensidade de pixel para as três sequências com maior eficácia, FLAIR para o canal vermelho,  BRAVO para o canal verde e 3D CUBE com contraste para o canal azul. Isso foi possível pois três os valores RGB em cada canal são os mesmos quando em escala de cinza, que é a escala da imagem original, como pode ser observado na Figura \ref{fig:rgbt2}.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.65\textwidth]{./04-figuras/rgbt2.png}
+	\caption{Imagem com uma sequência em cada canal RGB (direita) e Imagem original FLAIR (esquerda)}\vspace{-0.2cm}
+    \fonte{\textit{BrainMetShare}}
+    \label{fig:rgbt2}
+\end{figure}
+
+Dessa maneira, foi possível realizar o treino em uma rede neural do tipo 2D U-Net \cite{Ronneberger:2015} que mostrou bastante eficácia em tarefas de segmentação em visão computacional e, após o treino utilizando essa rede U-Net, foi possível realizar a segmentação de algumas metástases, como pode ser visto nas Figuras \ref{fig:ex13} e \ref{fig:ex46}. Nota-se que essa segmentação mostrou-se eficaz para metástases de tamanhos pequenos, podendo auxiliar a identificação realizada pelos radiologistas.
+
+\begin{figure}[!htb]
+\centering
+     \begin{subfigure}[b]{0.45\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./04-figuras/ex13}
+         \caption{Treino em 20 épocas com \textit{learning rate} de 1e-4 e \textit{batch size} igual a 4}
+         \label{fig:ex13}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.45\textwidth}
+         \centering
+         \includegraphics[width=\textwidth]{./04-figuras/ex46}
+         \caption{Treino em 60 épocas com \textit{learning rate} de 1e-5 e \textit{batch size} igual a 4}
+         \label{fig:ex46}
+     \end{subfigure}
+    \caption{Imagens mostrando a eficiência da U-Net em realizar segmentações. Imagem com os três canais de cores para cada modalidade de aquisição (acima à esquerda), imagem da aquisição FLAIR (acima à direita), máscara de segmentação feita pelos neurorradiologistas (abaixo à esquerda) e máscara de segmentação realizada pela U-Net (abaixo à direita) para duas imagens (a)  com 2 metástases e em (b) com 1 metástase pequena.} \label{fig:estadorc}\vspace{0.2cm}
+    \fonte{Autoria própria.}
+\end{figure}
+
+\section{Próximas Etapas}
+
+Para analisar o risco dos dados estarem enviesados, será aplicada uma clusterização t-SNE, do inglês \textit{t-Distributed Stochastic Neighbor Embedding}, para todas as imagens, de acordo com o tipo de metástase, paciente, quantidade e tamanho. Uma clusterização teste foi realizada para as metástases de 16 pacientes distintos, que pode ser visualizada na Figura \ref{fig:tsne}, em que é possível perceber os agrupamentos quem alguns pacientes possuem, mas que podem ser confundidos com outros, como é o caso dos pacientes identificados como \textit{pat0} (rosa) e \textit{pat5} (laranja). Em vez de se usar a sequência 3D CUBE CC, também será testada a imagem formada pela subtração da imagem obtida na SP 3D CUBE da imagem obtida na SP 3D CUBE CC, seguida da aplicação da técnica de normalização de histograma, de forma a contrastar ainda mais as regiões com acúmulo de contraste de Gadolínio.
+
+\begin{figure}[!htb]
+\centering
+    \includegraphics[width=0.75\textwidth]{./04-figuras/tsne.png}
+	\caption{Clusterização t-SNE para metástases de 16 pacientes}\vspace{-0.2cm}
+    \fonte{Autoria própria.}
+    \label{fig:tsne}
+\end{figure}
+
+Além disso, a utilização de redes neurais U-Net 3D ou uma rede 2.5D podem ser utilizadas para extrair informações espaciais mais precisas, visto que as relações entre \textit{slices} da imagem pode ser obtida. O que pode demandar mais poder computacional durante o treino, porém uma vez treinada a rede não precisará passar por um novo treino, apenas por ajustes finos. Uma outra possibilidade de estudo são as arquiteturas DeepMedic com a utilização de \textit{patches} para o treino em caminhos paralelos.
+
