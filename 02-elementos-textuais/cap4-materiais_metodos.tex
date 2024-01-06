@@ -1,0 +1,265 @@
+
+\chapter{Materiais e Métodos}\label{chap:metodos}
+
+
+A pesquisa envolve a identificação e segmentação metástases cerebrais de pacientes que realizaram exames de RM, bem como a avaliação dos hiperparâmetros de treino das diferentes redes neurais para encontrar melhores resultados nas tarefas de segmentação para que, posteriormente, possa ser feita a estimativa de dose a partir dos volumes do planejamento radioterápico. Sendo assim, população desta pesquisa envolve pacientes diagnosticados com metástases cerebrais múltiplas submetidos a tratamentos de radioterapia. Além disso, estratégias de \textit{data augmentation}, \textit{transfer learning}, e pré-processamento de imagens serão aplicadas nas imagens, de modo a avaliar a eficiência dessas técnicas na tarefa de segmentação.
+
+\section{Dados}
+
+\subsection{Ocaña-Tienda}
+
+O conjunto de dados disponibilizado por \cite{Ocaña-Tienda:2023} é composto por 373 imagens de pacientes com metástases cerebrais adquiridas por RM em formato \textit{Neuroimaging Informatics Technology Initiative} (NIfTI), e fornece as máscaras de segmentação das metástases cerebrais dessas imagens, bem como informações morfológicas, radiômicas e de aquisição da imagem.
+
+\subsubsection{Extração pelo FSL-BET}
+
+A extração da região cerebral foi realizada utilizando o \textit{software} FSL-BET com o parâmetro de \textit{threshold} de 0,5.
+
+Verificação da quantidade de metástases com variação não maior do que $99,5\%$ para cada valor de threshold das extrações realizadas pelo FSL-BET.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+Threshold & Volume válido total ($\sim$99,5\%) & Volume de metástases & DICE \\ \hline
+0,5       & 373                                    &                      &      \\ \hline
+0,4       &                                    &                      &      \\ \hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Organização dos diretórios}
+
+As imagens foram convertidas para formato PNG para facilitar a leitura através do uso das bibliotecas \textcolor{red}{<quais bibliotecas especificamente>} em Python, para posterior transformação em \textit{arrays} para serem treinados pela rede neural. Dessa forma, foram criados dois diretórios distintos, um para armazenamento das imagens dos recortes cerebrais obtidos com o FSL-BET e outro para armazenamento das máscaras de segmentação das metástases cerebrais. Em cada um dos diretórios, há um diretório para cada paciente, devidamente anonimizados com o título PATXXX, em que XXX representa o número do paciente que vai de 000 até 074. Dentro de cada diretório do paciente, encontram-se os diferentes exames realizados em RM, que estão numerados de acordo com a quantidade global de exames contando desde 000 até 372, junto com as anotações do tipo de exame, como por exemplo, 3D Cube, 3D T1 com gadolínio, FLAIR, etc. A organização do conjunto de dados pode ser sumarizada pela Figura \ref{fig:diretorios} a seguir:
+
+\begin{figure}[!htb]
+\centering
+    \includegraphics[width=1.0\textwidth]{./04-figuras/diretorios.png}
+	\caption{Estrutura de dados para treino da rede neural.}\vspace{-0.2cm}
+    \fonte{Autoria própria.}
+    \label{fig:diretorios}
+\end{figure}
+
+Os tamanhos das imagens variam de acordo com o exame e foram mantidos em seus valores originais para o armazenamento, uma vez que no arquivo NIfTI há a informação sobre o tamanho real de cada pixel. Essa informação é perdida ao se fazer o redimensionamento para um tamanho padrão. Então, por esse motivo, o redimensionamento será realizado na etapa das transformações dos \textit{inputs} da rede neural. 
+
+\subsection{BrainMetShare}
+Será utilizada a base de dados \textit{BrainMetShare}, disponibilizada pela \textit{Stanford University School of Medicine} \cite{Grovik:2020}, que contém imagens em RM de crânio de 156 pacientes, em quatro modalidades de aquisição, sendo elas: 3D Cube, 3D Cube CC, BRAVO e FLAIR. Todas as imagens foram pré-processadas para segmentação do cérebro e, para 105 dos 156 pacientes, as máscaras de segmentação dos sítios metastáticos foram realizadas em verificação cruzada por dois neurorradiologistas com 2 e 8 anos de experiência. Dessa maneira, foram utilizadas 72.756 imagens relativas aos \textit{slices} da imagem de RM dos 105 pacientes, que é constituído de um conjunto de imagens 2D em sequência através e todo o volume cerebral.
+
+Esse era o único banco de imagens em RM disponível publicamente com ênfase nas metástases cerebrais até uma recente publicação \cite{Ocaña-Tienda:2023}, composto por imagens de 75 pacientes e anotações que também incluem radiômica de 44 características extras e que podem ser complementares às imagens para o treino da rede neural. Esse conjunto de dados será analisado e utilizado no desenvolvimento deste trabalho, visto que essas novas variáveis podem ser interessantes para o treino de um modelo multimodal. Segundo \cite{Niranjan:2019,Cho:2020,Grovik:2020}, as variáveis adicionais às imagens que podem ser relevantes incluem: sexo, origem da metástase, número de nódulos metastáticos, tamanho médio dos nódulos metastáticos, proporção de nódulos maiores do que 10 mm, modelo da máquina de RM, Intensidade em Tesla do campo de RM, resolução planar da RM, espessura da camada de RM em milímetros, idade, presença de sintomas, status da doença primária, presença ou ausência de metástases em outros órgãos, status neurológico do paciente, condição média do paciente, volume estimado do tumor cerebral, número de tumores, histórico de WBRT e histórico de procedimento no cérebro.
+
+Além disso, para a aplicação em casos de escassez de exames de RM, a busca por \textit{datasets} de imagens de TC será realizada. No entanto, por não ser o padrão ouro para a identificação de metástases, a quantidade de \textit{datasets} em TC é limitada e uma busca preliminar realizada no \href{https://www.cancerimagingarchive.net/collections/}{\textit{The Cancer Imaging Archive} (TCIA)} não trouxe resultados para imagens de metástases cerebrais em TC e outras buscas serão realizadas, incluindo solicitações aos autores de estudos envolvendo o uso dessas imagens.
+
+\section{Pré-Processamento}
+
+\subsection{Ocaña-Tienda}
+Para as imagens do Dataset de \cite{Ocaña-Tienda:2023}, foram necessários diversos pré-processamentos, envolvendo a variação do tamanho de voxels entre as imagens, espessura entre slices, tipo de corte axial ou sagital, o número de clusteres para as máscaras das metástases foi definido como sendo 10 pixels para não ser considerado ruído.
+
+\subsection{BrainMetShare}
+
+O Dataset \textit{BrainMetShare} não possui informações além das imagens, para isso, é necessário utilizar aproximações em torno de uma média.
+
+Para a informação do volume total cerebral, assumimos que todas as imagens dos 105 pacientes possuíam um tamanho padrão, encontrado em literatura como sendo $1093 \pm 111 \ \text{cm}^3$ \cite{Akeret:2021}, $1380 \pm 114 \ \text{cm}^3$ \cite{Filipek:1994}, $1290 \pm 148 \ \text{cm}^3$ \cite{Hammers:2003} e $1180 \pm 112 \ \text{cm}^3$ \cite{Lancaster:2010}. A média dos valores e sua incerteza é dada por 
+$1236 \pm 245 \ \text{cm}^3$, que será o valor de referência utilizado. 
+
+\section{Modelos de Segmentação}
+
+Tendo em vista o objetivo do modelo em realizar o delineamento automático de regiões tumorais através da apresentação de uma máscara de segmentação como referência e inserindo novas imagens para a predição de novas máscaras de segmentação, as imagens obtidas dos pacientes submetidos a exames de RM serão treinadas por CNNs, em que o conjunto de dados, do banco \textit{BrainMetShare} de Stanford, é separado por tipo de Sequência de Pulso (SP), constituído por 18.189 imagens  de cada tipo de ponderação, sendo que para o treino de cada CNN serão reservadas 643 imagens para teste, ficando a divisão do conjunto de dados restante (17.546) em 80\% para treino e 20\% para validação. Em treinos distintos, será realizada a variação multiparamétrica dos hiperparâmetros de cada CNN em seis passos, totalizando seis modelos treinados para cada SP. Assim, é possível realizar a avaliação de qual SP apresenta uma melhor eficiência na detecção de metástases cerebrais.
+
+A partir desse resultado, as melhores SP serão colocadas nos canais RGB da imagem de \textit{input} da CNN, resultando em uma única imagem com informações sobre as três diferentes SP de melhor relevância para a classificação de metástases cerebrais. Assim, uma análise comparativa entre CNNs 2D e 3D será realizada, e estratégias de \textit{ensemble} de redes 2D e 3D serão testadas, de modo a aprimorar os resultados obtidos para a tarefa de segmentação. Espera-se que os resultados obtidos com a rede 3D sejam melhores do que os obtidos com a rede 2D, visto que o mapa de características encontrado pelos \textit{kernels} da rede convolucional tridimensional conseguem extrair informações espaciais da região metastática, e não apenas informações planares como realizado pela rede U-Net 2D. Apesar da rede tridimensional apresentar um maior uso de poder computacional, uma vez que o modelo estiver treinado, o mesmo pode ser carregado pela rede rapidamente, não exigindo muito poder computacional para realizar uma nova predição.
+
+Dessa maneira, com a troca dos hiperparâmetros e das arquiteturas de rede, espera-se obter métricas que sejam próximas ou melhores das encontradas em literatura, de modo a classificar a melhor maneira de realizar a segmentação de metástases cerebrais através does coeficientes Dice e IoU. Um fluxograma com as etapas de aquisição, treino e análise de resultados está descrita no fluxograma da Figura \ref{fig:fluxograma}.
+
+
+\begin{figure}[!htb]
+\centering
+    \includegraphics[width=0.75\textwidth]{./04-figuras/fluxograma.png}
+	\caption{Fluxograma dos passos metodológicos.}\vspace{-0.2cm}
+    \fonte{Autoria própria.}
+    \label{fig:fluxograma}
+\end{figure}
+
+Vale ressaltar que o banco de dados indicado na figura pode variar de acordo com a finalidade do treino, sendo possível separar imagens de acordo com o tamanho ou número de metástases e a instituição de aquisição.
+
+A CNN utilizada será uma U-Net 2D, que é uma rede com formato \textit{encoder-decoder} semelhante à letra U, com a etapa de \textit{encoder} composta por três blocos de duas convoluções seguidas por uma camada de \textit{downsampling}, e na etapa de \textit{decoder} possui quatro blocos de duas convoluções seguidas por uma camada de \textit{upsampling}. Cada convolução é iniciada por uma camada de ativação com função de ativação \textit{Rectified linear units} e finalizada com uma camada de \textit{Batch Normalization} e, após as duas convoluções, são aplicadas uma camada de \textit{Max Pooling} seguida de uma camada residual que será alimentada nos blocos do \textit{decoder}, conforme ilustra a Figura \ref{fig:unet}.
+
+\begin{figure}[!htb]
+\centering
+    \includegraphics[width=0.75\textwidth]{./04-figuras/unet.png}
+	\caption{Diagrama da rede U-Net}\vspace{-0.2cm}
+    \fonte{\cite{Ronneberger:2015}}
+    \label{fig:unet}
+\end{figure}
+
+De acordo com \cite{Karimi:2021}, o treino do modelo \textit{Fully Convolutional Network} no formato \textit{encoder-decoder}, que é o caso da U-Net, possui resultados similares quando os pesos do \textit{encoder} são congelados em valores iniciais aleatórios ou quando são pré-treinados, e apenas os pesos do \textit{decoder} são necessários passar pelo treino na tarefa de segmentação para imagens médicas.
+
+\section{Métricas de Avaliação de performance}
+
+As métricas de avaliação de performance indicam como o modelo desempenha na função para a qual foi proposta, e podem variar de acordo com o tipo de rede neural utilizada e sua finalidade. Para esse estudo, as métricas utilizadas estão listadas a seguir:
+
+\subsection{Coeficiente Dice (DSC)}
+
+O coeficiente de similaridade Dice é utilizado para a comparação de duas amostras e é mensurado conforme indica a Equação (\ref{eq:dsc}).
+
+\begin{equation}\label{eq:dsc}
+    DSC = \frac{2 \left| X \cap Y\right|}{\left|X\right| + \left|Y\right|}
+\end{equation}
+
+Em que $X$ e $Y$ são os dois elementos a serem comparados, que no caso desse estudo são as máscaras de segmentação obtidas pela predição da rede e as máscaras de segmentação feita por radiologistas. Os valores para essa métrica podem ir de 0 até 1, ou de 0\% até 100\%, e representa o quanto a previsão do modelo se assemelha à realidade, através da contagem de \textit{pixels} que possuem a mesma intensidade tanto na predição quanto no resultado esperado.
+
+Em redes neurais, durante o treino em uma época, o coeficiente Dice pode ser utilizado como função perda para a atualização dos parâmetros de treino da rede e a função ($D_{loss}$, do inglês \textit{Dice Score Coefficient Loss function}) utilizada é definida a partir da Equação (\ref{eq:diceloss}):
+
+\begin{equation}\label{eq:diceloss}
+    D_{loss} = \frac{2\times TP}{2\times TP + FP + FN}
+\end{equation}
+
+Em que TP indica o número de verdadeiros positivos, FP indica o número de falsos positivos e FN é o número de falsos negativos. Essa função, bem como as suas variantes como a \textit{soft Dice Loss function}, a \textit{Log-Cosh Dice Loss function}, entre outras, também serão analisadas para melhoria dos resultados da segmentação.
+
+
+\subsection{Precisão}
+
+A precisão (PPV, do inglês \textit{Predicted Positive Value}) é dada a partir da Equação (\ref{eq:precisao}):
+
+\begin{equation}\label{eq:precisao}
+    PPV = \frac{TP}{TP+FP}
+\end{equation}
+
+Nota-se que essa métrica depende de qual etiqueta está sendo utilizada como positiva ou negativa. No nosso caso, o positivo indica a presença de metástase na região analisada.
+
+\subsection{Sensibilidade ou \textit{Recall}}
+
+A sensibilidade ou \textit{Recall} (TPR, do inglês \textit{True Positive Rate}) é dada a partir da Equação (\ref{eq:recall}):
+
+\begin{equation}\label{eq:recall}
+    TPR = \frac{TP}{TP+FN}
+\end{equation}
+
+Essa métrica irá dizer o quando o modelo acerta em relação a todos os casos em que ocorrem metástases.
+
+\subsection{Acurácia}
+
+A acurácia é uma métrica que mede o total de acertos em relação ao total de previsões, ela é medida através da Equação (\ref{eq:acuracia}):
+
+\begin{equation}\label{eq:acuracia}
+    Acuracia = \frac{TP+TN}{TP+TN+FP+FN}
+\end{equation}
+
+Em que TP é o número de verdadeiros positivos, TN é o número de verdadeiros positivos, FP é o número de falsos positivos e FN é o número de falsos negativos.
+
+\subsection{\textit{F1-Score}}
+
+A \textit{F1-Score} é uma métrica que relaciona a precisão e a sensibilidade através de uma média harmônica entre elas, e pode ser utilizada em conjunto com a acurácia para avaliar a qualidade do modelo, é descrita pela Equação (\ref{eq:f1score}):
+
+\begin{equation}\label{eq:f1score}
+    F1 = 2 \times \frac{(PPV \times TPR)}{PPV+TPR}
+\end{equation}
+
+Em que PPV é a precisão e TPR a sensibilidade.
+
+\subsection{Intersecção sobre a união (IoU)}
+
+A intersecção sobre a união (IoU, do inglês \textit{Interseciton over Union}, ou índice de Jaccard, é uma métrica utilizada para verificar quanto uma amostra é condizente com o valor esperado, e é calculada através da Equação (\ref{eq:iou}):
+
+\begin{equation}\label{eq:iou}
+    IoU = \frac{\left|X \cap Y\right|}{\left|  X \cup Y \right|}
+\end{equation}
+
+Em que $X$ e $Y$ são os dois elementos a serem comparados, que no caso desse estudo são as máscaras de segmentação obtidas pela predição da rede e as máscaras de segmentação feita por radiologistas.
+
+\subsection{Área sob a curva ROC (AuROCC)}
+
+A área sob a curva ROC (AuROCC, do inglês \textit{Area under Receiver Operating Characteristics Curve}) é uma métrica que indica o quanto o modelo acerta em suas predições tanto para as características positivas quanto para os negativas. Quanto mais próxima a área sob a curva estiver do valor unitário, maior é a confiabilidade do modelo em acertar seus predições.
+
+\section{Análise e Validação dos Modelos}
+
+A validação do modelo é um passo importante para garantir a generabilidade do modelo. Os modelos treinados serão validados utilizando-se tanto subconjuntos de teste do banco de imagens do treinamento quanto de outros bancos de imagens, para que seja realizada a validação externa. Dessa maneira, serão comparadas as métricas de avaliação de performance para cada um dos modelos nos diferentes conjuntos de validação.
+
+Para o banco de dados utilizado no treino, \textit{BrainMetShare} \cite{Grovik:2020}, será utilizado o método \textit{k-folds} de validação cruzada, que consiste na separação em um número k de partes, ou \textit{folds}, do conjunto de dados, reservando uma dessas partes sem a qual o treino é realizado. Assim, é possível utilizar a parte reservada para a validação, e o treino é realizado um número k de vezes, reservando uma vez cada um dos \textit{folds} e comparando as métricas obtidas ao final de cada treino \cite{Chollet:2017}, como está apresentado na Figura \ref{fig:3k-fold}. Apesar de ter um maior custo computacional devido à maior quantidade de treinos, essa técnica é amplamente utilizada em literatura \cite{Liu:2017,Dikici:2020,Xue:2020,Pennig:2021,Park:2021}.
+
+\begin{figure}[!htb]
+\centering
+    \includegraphics[width=0.8\textwidth]{./04-figuras/3k-fold.png}
+	\caption{Validação cruzada em \textit{k-folds} para k = 3.}\vspace{-0.2cm}
+    \fonte{Adaptado de \cite{Chollet:2017}}
+    \label{fig:3k-fold}
+\end{figure}
+
+Para a validação da generabilidade e robustez do modelo, serão realizados treinos com os conjuntos de dados distintos \cite{Grovik:2020,Ocaña-Tienda:2023} de forma independente, a fim de avaliar a aplicação de um modelo treinado com os dados de um \textit{dataset} em outro e vice-versa.
+
+Outra forma de avaliar a abrangência do modelo é através da subamostragem em grupos com características diferentes, como por exemplo, a instituição e aparelhos em que foram obtidas as imagens ou a quantidade, tamanho e volume das metástases cerebrais analisadas. Essa análise deve ser realizada para avaliar os efeitos de localidade do \textit{dataset}, que pode trazer resultados bons para um conjunto de dados do mesmo local mas ruins para um conjunto de dados de outro local. Também é possível avaliar os efeitos do tamanho da lesão cerebral, pois as metástases cerebrais de menor volume são mais difíceis de serem encontradas, e o DSC para esse subgrupo é menor do que para subgrupos de metástases maiores \cite{Bousabarah:2020}. Assim, será possível ter um modelo treinado para cada subgrupo de metástases, que poderão passar por uma rede de identificação antes de serem colocadas na rede de segmentação, cuja performance será medida através dos coeficientes Dice, FPP e IoU para comparação com a literatura.
+
+\section{Funções Perda}
+
+As funções perda, comumente chamadas de \textit{loss functions} ou simplesmente \textit{loss}, são funções matemáticas que permitem a medição da diferença entre o resultado que se obteve e o resultado esperado \cite{Chollet:2017}. É através dos valores de \textit{loss} encontrados ao final do treino de uma época do modelo que se obtém o \textit{feedback} se aquela época melhorou ou não a eficiência do modelo em realizar a tarefa para o qual foi treinado.
+
+Em modelos de segmentação, algumas funções perda podem ser bastante úteis, enquanto outras funções perda não irão realizar a tarefa desejada. Entre os tipos de funções perda utilizadas nas tarefas de segmentação por redes neurais convolucionais, podemos considerar que existem quatro categorias principais \cite{Sugino:2021}, que estão embasadas em:
+\begin{itemize}
+    \item Distribuição - mede a dissimilaridade com base na entropia cruzada, como por exemplo a \textit{Cross-Entropy Loss}.
+    \item Região (volume ou área) - quantifica a incompatibilidade das intersecções das regiões, como por exemplo a \textit{Dice Loss}.
+    \item Bordas - Leva em consideração à distância entre as bordas da predição e o esperado, como por exemplo as distâncias Euclidiana ou de Hausdorff.
+    \item Composições - Podem ser feitas composições entre essas três categorias supracitadas.
+\end{itemize}
+
+Além disso, ao comparar os resultados da segmentação de quatro tipo de estruturas cerebrais, o estudo de \cite{Sugino:2021} avalia o uso de doze combinações de funções perda com \textit{weighting} e classifica as melhores combinações das funções perda \textit{Cross Entropy Loss} com \textit{Distance Transform Map-based weighting} (DTM) e a \textit{Dice Loss} com \textit{Focal Weighting} para a tarefa de segmentação binária.
+
+Os modelos treinados nesse estudo tiveram duas funções perda compostas, que estarão apresentadas nas subseções a seguir.
+
+\subsection{Dice \textit{Loss}}
+
+O coeficiente S{\o}rensen–Dice, também chamado de Dice, índice de similaridade Dice ou DSC, do inglês \textit{Dice Similarity Coefficient}, ou mesmo \textit{F1-Score}, é um índice que mede a similaridade entre duas amostras com base na razão entre a intersecção das duas amostras e a soma dessas duas amostras, que é dada pela Equação \ref{eq:dice}:
+
+\begin{equation}\label{eq:dice}
+    \text{DSC} = \frac{2|X \cap Y|}{|X| + |Y|} = \frac{2|X \cap Y|}{|X \cap Y| + |X \cup Y|}
+\end{equation}
+
+Para aplicações Booleanas, a função perda Dice \textit{Loss} pode ser dada  em termos de verdadeiros positivos  (\textit{tp}, do inglês \textit{true positive}), falsos negativos (\textit{fn}, do inglês \textit{false negative}) e falsos positivos (\textit{fp}, do inglês \textit{false positive}) pela Equação \ref{eq:booleandice}:
+
+\begin{equation}\label{eq:booleandice}
+    \mathcal{L}_{\text{Dice}}(tp, fp, fn) = \frac{(1 + \beta^2) \cdot tp} {(1 + \beta^2) \cdot tp + \beta^2 \cdot fn + fp}
+\end{equation}
+
+Em que o fator $\beta$ é um parâmetro de peso para a sensibilidade em relação à precisão, pois a depender do caso uma das métricas pode ser mais relevante do que a outra. No entanto, apenas a função perda com base no coeficiente Dice não é suficiente para realizar a tarefa de segmentação, e o fato de haver um grande desbalanceamento de classes entre os \textit{pixels} que são partes de metástases e os \textit{pixels} que fazem parte do \textit{background} faz com que a rede neural ignore os \textit{pixels} classificados como metástases durante o treino, o que pode ser resolvido com a variação da função Dice, como a \textit{Generalized Dice Loss}.
+
+\subsubsection{\textit{Generalized Dice Loss}}
+
+Uma estratégia de ponderação ou pesagem, para mitigar o efeito do desbalanceamento das classificações dos \textit{pixels} para segmentação é o uso da função perda \textit{Generalized Dice Loss} (GDL), que leva em consideração um fator peso que é inversamente proporcional ao quadrado da frequência \cite{Sugino:2021} e é dado pela Equação \ref{eq:generalized_dice} \cite{Sudre:2017}:
+
+\begin{equation}\label{eq:generalized_dice}
+    \mathcal{L}_{\text{GenDice}} = 1 - 2 \frac{\sum_{l=1}^2 w_l \sum_{n} y_{ln} \cdot \hat{p_{ln}}}{\sum_{l=1}^2 w_l \sum_{n} y_{ln} + \hat{p_{ln}}}
+\end{equation}
+
+Em que $w_l = \left(\frac{1}{\sum_{n=1}^N y_{ln}} \right)^2$ é o fator peso inversamente proporcional com o tamanho da região, e diminui a correlação entre o DSC e a área. Em um treino realizado com imagens do BRATS para a segmentação de tumores cerebrais, a GDL foi comparada com as funções perda \textit{Weighted Cross-Entropy Loss}, \textit{Dice Loss} e \textit{Sensitivity-Specificity loss}, resultando em um maior valor para a métrica DSC para cinco de nove configurações de treino com a rede U-Net, e em quatro de nove configurações de treino com a rede TwoPathCNN. Nessas duas arquiteturas os resultados para a DSC encontrado com a GDL foram sempre maiores do que nas outras duas arquiteturas estudadas, a DeepMedic e HighResNet \cite{Sudre:2017}.
+
+
+\subsection{\textit{Binary Focal Loss}}
+
+Um problema enfrentado por redes que fazem detecção de objetos e que está relacionado às redes de segmentação é o fato de haver um grande desbalanceamento de classes, já que os \textit{pixels} que não fazem parte das metástases são considerados como \textit{background} e são predominantes. Esse desbalanceamento pode ser contornado utilizando algumas estratégias como a \textit{hard negative mining}, que adiciona exemplos negativos no treino para diminuir a quantidade de falsos positivos, ou pelo uso da função perda \textit{Focal Loss} \cite{Lin:2020}, que é definida pela Equação \ref{eq:focalloss}.
+
+\begin{equation}\label{eq:focalloss}
+    \mathcal{L}_{\text{Focal}}(y,\hat{p})=-\alpha y(1-\hat{p})^{\gamma}\text{log}(\hat{p})-\alpha (1-y)\hat{p}^{\gamma}\text{log}(1-\hat{p})
+\end{equation}
+
+Em que $y$ é o \textit{label} da classe binária 0 ou 1, $\hat{p}$ é a probabilidade da estimativa estar correta, $\gamma$ é o parâmetro focal que especifica o quanto as predições corretas pesam para a contribuição da estimativa da \textit{loss}, geralmente definido como igual a 2 quando usado em combinação com a \textit{Cross Entropy Loss} ou igual a 2 quando usado em combinação com a \textit{Dice Loss}, e $\alpha$ é o hiperparâmetro que equilibra a relação entre precisão e sensibilidade, que por \textit{default} é igual a 1 e indica que não há preferência para uma entre essas duas \cite{Lin:2020}. Essa equação uma variação da função perda \textit{Balanced Cross Entropy} ($BCE$), que é dada pela Equação \ref{eq:bce}, com a adição do parâmetro focal $\hat{p}^{\gamma}$ e $(1 - \hat{p})^{\gamma}$ , que coloca ênfase em \textit{pixels} cuja classe é de difícil classificação durante o treino, tendo como base o valor de $\hat{p}$ \cite{Sugino:2021}. 
+
+\begin{equation}\label{eq:bce}
+    BCE(y,\hat{p}) = \begin{cases}
+    -\alpha\text{log}(\hat{p}), & \text{se $y=1$}\\
+    -\alpha\text{log}(1-\hat{p}), & \text{se $y=0$}
+    \end{cases}
+\end{equation}
+
+\subsection{\textit{Boundary Loss}}
+
+Uma função perda que leva em consideração a borda da segmentação é denominada \textit{boundary loss} e foi proposta por \cite{Kervadec:2021} na tarefa de segmentação de hiperintensidades da substância branca em imagens de ressonância magnética cerebrais ponderadas em T1 e FLAIR. Assim como o caso de metástases cerebrais, essas regiões hiperintensas podem se apresentar em pequenos tamanhos e a função \textit{boundary loss} mostrou-se mais eficiente na tarefa de segmentação dessas regiões quando comparada à \textit{Generalized Dice Loss}, e é definida pela Equação \ref{eq:boundaryloss}:
+
+\begin{equation}\label{eq:boundaryloss}
+    \mathcal{L}_{\text{boundary}}= \frac{1}{N}\sum_n^N \hat{p}_n \cdot(d_{\text{borda}}(fp) - d_{\text{borda}}(tp)) 
+\end{equation}
+
+Em que $N$ é o número total de \textit{pixels}, $\hat{p}_n$ é a predição da rede e $d_{\text{borda}}$ é a distância do \textit{pixel} até a borda da segmentação. Note que esse valor é minimizado com os acertos da região interna à borda, dados pelos verdadeiros positivos ($tp$), e maximizado com os erros da rede fora da região da segmentação, determinados pelos falsos positivos ($fp$). Assim, como durante a otimização a função perda será minimizada, essa função \textit{boundary loss} mostra-se útil para a tarefa de segmentação. 
+
+\section{Otimizadores}
+
+
+
+\subsection{Adam}
+
+O otimizador Adam \cite{Kingma:2014} é um algoritmo de otimização que tem como base estimativas adaptativas dos momentos de primeira e segunda ordem de uma descida de gradiente estocástico (SGD, do inglês \textit{Stochastic Gradient Descent}), e é de fácil implementação, computacionalmente eficiente,e não necessita de muita memória. O otimizador Adam combina as vantagens de dois métodos, o AdaGrad e o RMSProp
+
