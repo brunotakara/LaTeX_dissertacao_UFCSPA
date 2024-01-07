@@ -16,3 +16,30 @@ Caso você não tenha familiaridade com LaTex, seguem algumas dicas:
 ```
 + `Main.tex` é o documento principal para a compilação, porém nesse documento você não conseguirá editar o que está nos capítulos, seções e outros itens, como a folha de rosto, para editá-los é necessário acessar os arquivos incluídos no documento principal, através do comando `\include{caminho até o documento}`
 
+## Como as pastas estão organizadas:
+
+Em `01-elementos-pre-textuais` encontram-se todas as páginas que estão antes da apresentação do trabalho. Estão apresentados a seguir, segundo o manual de trabalhos acadêmicos da UFCSPA (2022), disponível no link: https://ufcspa.edu.br/documentos/biblioteca/Manual_de_Trabalhos_Acadmicos_2022.pdf
+
+1. **Folha de rosto (Obrigatório)**
+2. **Dados de catalogação na publicação / Ficha Catalográfica (Obrigatório, exceto para TCC que varia de acordo com o curso)**
+3. Errata (opcional)
+4. **Folha de aprovação (obrigatório)**
+5. Dedicatória (opcional)
+6. Agradecimentos (opcional)
+7. Epígrafe (opcional)
+8. **Resumo na língua vernácula (obrigatório)**
+9. **Resumo em língua estrangeira (obrigatório)**
+10. Lista de ilustrações (opcional)
+11. Lista de tabelas (opcional)
+12. Lista de abreviaturas e siglas (opcional)
+13. Lista de símbolos (opcional)
+14. **Sumário (obrigatório)**
+
+Em `02-elementos-textuais` estão todos os capítulos da apresentação do trabalho, que são a Introdução, o Desenvolvimento e a Conclusão.
+
+Elementos pós-textuais:
+
+1. **Referências (obrigatório)**
+2. Glossário (opcional)
+3. Apêndice (opcional)
+4. Anexo (opcional)
