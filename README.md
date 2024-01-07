@@ -35,7 +35,7 @@ Em `01-elementos-pre-textuais` encontram-se todas as páginas que estão antes d
 13. Lista de símbolos (opcional)
 14. **Sumário (obrigatório)**
 
-Em `02-elementos-textuais` estão todos os capítulos da apresentação do trabalho, que são a Introdução, o Desenvolvimento e a Conclusão.
+Em `02-elementos-textuais` estão todos os capítulos da apresentação do trabalho, que são a **Introdução**, o **Desenvolvimento** e a **Conclusão**.
 
 Elementos pós-textuais:
 
