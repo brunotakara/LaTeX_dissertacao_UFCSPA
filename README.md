@@ -37,7 +37,7 @@ Em `01-elementos-pre-textuais` encontram-se todas as páginas que estão antes d
 
 Em `02-elementos-textuais` estão todos os capítulos da apresentação do trabalho, que são a **Introdução**, o **Desenvolvimento** e a **Conclusão**.
 
-Elementos pós-textuais:
+Em `03-elementos-pos-textuais` encontram-se os elementos pós-textuais, que estão apresentados na lista a seguir, com o único obrigatório sendo as referências:
 
 1. **Referências (obrigatório)**
 2. Glossário (opcional)
