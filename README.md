@@ -43,3 +43,5 @@ Em `03-elementos-pos-textuais` encontram-se os elementos pós-textuais, que est�
 2. Glossário (opcional)
 3. Apêndice (opcional)
 4. Anexo (opcional)
+
+Em `04-figuras` estão dispostas as figuras, basta colocar a figura com um nome fácil de ser chamado, geralmente coloco o mesmo nome da figura com a sua label na hora de chamá-la no corpo do texto, o mesmo vale para as tabelas em `05-tabelas`, os quadros em `06-quadros` e os algoritmos em `07-algoritmos`. Eu coloquei as tabelas diretamente no texto, isso não influencia na hora de criar o índice de tabelas, mas é melhor deixar na pasta para organização.
