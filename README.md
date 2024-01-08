@@ -9,7 +9,7 @@ Caso você não tenha familiaridade com LaTex, seguem algumas dicas:
 
 + `%` é utilizado para comentar uma linha, o que estiver escrito após o símbolo de porcentagem não será compilado
 + `\` é utilizado para indicar que um comando será utilizado, também pode ser utilizado para gerar caracteres especiais
-+ `$` é utilizado para escrever no ambiente matemático, o termo a ser escrito deve estar entre dois S-cifrões, como por exemplo `$a^2 = b^2 + c^2$`
++ `$` é utilizado para escrever no ambiente matemático, o termo a ser escrito deve estar entre dois S-cifrões, como por exemplo `$a^2 = b^2 + c^2$` para a representação da fórmula de báscara, para mais utilidades veja a página do professor Agostinho Brito: https://agostinhobritojr.github.io/tutorial/latex/cha.ambiente_matematico.html
 + `{}` as chaves são utilizadas para aplicar algum comando no que estiver dentro das chaves, por exemplo, para deixar um texto em itálico basta usar o comando `\textit{texto em itálico}`, ou para o texto em negrito `\textbf{texto em negrito}`, e é possível nestar os comandos `\textit{\textbf{Texto em itálico e em negrito}}`
 ```latex
 \textbf{negrito} \textit{itálico} \textit{\textbf{negrito e itálico}}
