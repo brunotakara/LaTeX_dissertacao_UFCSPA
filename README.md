@@ -15,6 +15,7 @@ Caso você não tenha familiaridade com LaTex, seguem algumas dicas:
 \textbf{negrito} \textit{itálico} \textit{\textbf{negrito e itálico}}
 ```
 + `Main.tex` é o documento principal para a compilação, porém nesse documento você não conseguirá editar o que está nos capítulos, seções e outros itens, como a folha de rosto, para editá-los é necessário acessar os arquivos incluídos no documento principal, através do comando `\include{caminho até o documento}`
++ Quando for adicionar uma figura, uma tabela, um quadro, etc. Você pode definir o local em que aparecer na página, como pode ser visto em: https://www.overleaf.com/learn/latex/Positioning_images_and_tables . Assim, as principais posições são `h` - here (no local exato do texto, mas nem sempre), `t` - top (topo da página), `b` - bottom (na parte de baixo da página), `p` - page (uma página inteira somente para a imagem), `!` - para forçar o comando (pois muitas vezes o overleaf organiza de uma maneira otimizada mesmo que você dê um comando, então você pode usar `h!` por exemplo e `H` - posição exata no texto, similar ao `h!`. Você sempre irá colocar a posição entre colchetes, junto ao comando `\begin{}`, como por exemplo `\begin{figure}{h!}`.
 
 ## Como as pastas estão organizadas:
 
@@ -44,4 +45,4 @@ Em `03-elementos-pos-textuais` encontram-se os elementos pós-textuais, que est�
 3. Apêndice (opcional)
 4. Anexo (opcional)
 
-Em `04-figuras` estão dispostas as figuras, basta colocar a figura com um nome fácil de ser chamado, geralmente coloco o mesmo nome da figura com a sua label na hora de chamá-la no corpo do texto, o mesmo vale para as tabelas em `05-tabelas`, os quadros em `06-quadros` e os algoritmos em `07-algoritmos`. Eu coloquei as tabelas diretamente no texto, isso não influencia na hora de criar o índice de tabelas, mas é melhor deixar na pasta para organização.
+Em `04-figuras` estão dispostas as figuras, basta colocar a figura com um nome fácil de ser chamado, geralmente coloco o mesmo nome da figura com a sua label na hora de chamá-la no corpo do texto, o mesmo vale para as tabelas em `05-tabelas`, os quadros em `06-quadros` e os algoritmos em `07-algoritmos`. Eu coloquei as tabelas diretamente no texto, isso não influencia na hora de criar o índice de tabelas, mas é melhor deixar na pasta para organização, como foi feito com os quadros e pode ser visto no capítulo 6 dos elementos textuais, em que há o chamado `\input{./06-quadros/cronograma.tex}` para adicionar o quadro diretamente da pasta/diretório com os quadros.
