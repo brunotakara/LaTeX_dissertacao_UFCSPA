@@ -46,3 +46,5 @@ Em `03-elementos-pos-textuais` encontram-se os elementos pós-textuais, que est�
 4. Anexo (opcional)
 
 Em `04-figuras` estão dispostas as figuras, basta colocar a figura com um nome fácil de ser chamado, geralmente coloco o mesmo nome da figura com a sua label na hora de chamá-la no corpo do texto, o mesmo vale para as tabelas em `05-tabelas`, os quadros em `06-quadros` e os algoritmos em `07-algoritmos`. Eu coloquei as tabelas diretamente no texto, isso não influencia na hora de criar o índice de tabelas, mas é melhor deixar na pasta para organização, como foi feito com os quadros e pode ser visto no capítulo 6 dos elementos textuais, em que há o chamado `\input{./06-quadros/cronograma.tex}` para adicionar o quadro diretamente da pasta/diretório com os quadros.
+
+Em `pacotes\ppgmc-uesc.cls` estão as bibliotecas utilizadas para gerar o arquivo. Particularmente essa parte eu não entendi nada, quando entender coloco aqui uma explicação.
